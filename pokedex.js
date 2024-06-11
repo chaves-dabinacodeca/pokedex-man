@@ -1,10 +1,10 @@
 // Declarar variaveis
-const numeroPokemon = document.querySelector('.pokemon__number'), nomePokemon = document.querySelector('.pokemon__name'), imagePokemon = document.querySelector('.pokemon_image'), form = document.querySelector('.form'), input = document.querySelector('.input_search'), buttonPrev = document.querySelector('.btn-prev')
-buttonNext = document.querySelector('.btn-next');
-let cont;
+const numeroPokemon = document.querySelector('.pokemon__number'), nomePokemon = document.querySelector('.pokemon__name'), imagePokemon = document.querySelector('.pokemon_imagem'), form = document.querySelector('.form'), input = document.querySelector('.input_search'), buttonPrev = document.querySelector('.btn-prev'), buttonNext = document.querySelector('.btn-next');
+
+let contadora;
 
 //  Receber resposta da API
-const  fetchPokemon = async (pokemon) => {
+const fetchPokemon = async (pokemon) => {
 
     const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
 
@@ -13,38 +13,36 @@ const  fetchPokemon = async (pokemon) => {
         return data;
     }
 
-
-
 };
 const renderpokemon = async (pokemon) => {
+    nomePokemon.textContent = "carregando..."
+    imagePokemon.src ="https://media.tenor.com/a2tshkHR6RsAAAAi/run-pikachu.gif"
 
-    nomePokemon.textContent ="cargando"
-    imagePokemon.src = "https://media.tenor.com/Cm7KfjVqri4AAAAi/pokemon-pokeball.gif"
+    // https://media.tenor.com/HOZmxLX55XsAAAAi/pokemon-pikachu.gif
+
     const data = await fetchPokemon(pokemon);
 
     if (data) {
-
-
-
+  
         numeroPokemon.textContent = data.id;
         nomePokemon.textContent = data.name;
         imagePokemon.src = data.sprites.versions["generation-v"]["black-white"].animated.front_default;
-        input.value = ""
+        input.value = "";
         console.log(data);
-        cont = data.id;
+        contadora = data.id;
 
-    } else {
-
-        nomePokemon.textContent = "não catalogado";
-        numeroPokemon.textContent = ";-;";
+    } else { 
+        imagePokemon.src ="https://media.tenor.com/pYAjdsSGlvoAAAAi/pokemon.gif"
+        nomePokemon.textContent = "Não encontrado :(";
+        numeroPokemon.textContent = ""
 
     }
 
+    // imagePokemon= "setTimeout(data, 2000)" function data(){
+    //     alert('hello');
 
-
-}
-
-
+    // }
+};
 
 
 form.addEventListener("submit", (event) => {
@@ -53,21 +51,20 @@ form.addEventListener("submit", (event) => {
 
 });
 
-buttonPrev.addEventListener("click", ()=> {
-
-    if (cont > 1) {
-        cont -= 1
-        renderpokemon(cont)
+buttonPrev.addEventListener("click", () => { 
+    
+    if (contadora > 1) { 
+        contadora > 1    
+        contadora -= 1
+        renderpokemon(contadora)
     }
-    else{}
 });
 
-buttonNext.addEventListener("click", ()=> {
 
-        cont < 1
-        cont += 1
-        renderpokemon(cont)
-
+buttonNext.addEventListener("click", () => { 
+        contadora < 1    
+        contadora += 1
+        renderpokemon(contadora)
 });
 
-renderpokemon(1)
+renderpokemon(1);
